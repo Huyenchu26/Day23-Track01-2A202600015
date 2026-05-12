@@ -1,15 +1,12 @@
 # Day 23 — Worksheet Product ROI Dashboard
 
-File này dùng để nhóm điền trong lớp, sau đó copy nội dung cuối vào `03-product-roi-dashboard.md` trong repo cá nhân của từng thành viên.
-
----
 
 ## 0. Thông tin nhóm
 
 | Trường | Trả lời |
 |---|---|
-| Nhóm | Nhóm 4 — NestAI |
-| Thành viên + phần phụ trách | Chu Thị Ngọc Huyền (Part A + Dashboard mock), … (Case comparison), … (Part B metric), … (Red-team + Decision memo) |
+| Nhóm | Nhóm 005 — NestAI |
+| Người phụ trách | Chu Thị Ngọc Huyền|
 | Product chọn phân tích | **NestAI** — App gợi ý thực đơn dinh dưỡng cá nhân hoá cho mẹ bầu Việt có bệnh lý thai kỳ (tiểu đường, thiếu máu) |
 | Người dùng chính | Phụ nữ mang thai 22–35 tuổi, trimester 2–3, vừa được chẩn đoán tiểu đường thai kỳ hoặc thiếu máu thiếu sắt, có smartphone |
 | Link repo / file nộp cuối | `Day23-Track01-2A202600015/03-product-roi-dashboard.md` |
@@ -31,7 +28,7 @@ Tóm tắt bài học từ case study để dùng cho dashboard.
 | Thiếu metric nào? | Outcome tài chính (AUM/advisor, revenue uplift), audit độc lập về compliance, override rate (advisor sửa output AI bao nhiêu %). | Acceptance/override rate của bác sĩ, outcome lâm sàng, data-readiness, integration metric, cost-to-value. |
 | Bài học cho dashboard nhóm | Đo đủ 3 lớp: **adoption + productivity + trust/quality**. Mỗi workflow phải có human-review point rõ. | Không dừng ở **input metric** (đã chi, đã train, đã demo). Phải có **outcome + quality + override** ngay từ v1; kiểm tra **readiness dữ liệu** trước khi đếm "AI đã làm gì". |
 
-**Bài học nhóm sẽ áp dụng vào dashboard:**
+**Bài học  sẽ áp dụng vào dashboard:**
 
 ```markdown
 1. Không đo bằng usage thuần — login, prompt count, DAU/MAU không chứng minh được NestAI có giúp mẹ bầu ăn đúng hơn.
@@ -188,7 +185,7 @@ Tóm tắt bài học từ case study để dùng cho dashboard.
    (c) **Clinical outcome proxy** — % GDM user trong target zone đường huyết đói sau 4 tuần ≥ 50% (chứng minh có giá trị y tế thật, không chỉ "app dễ dùng").
    Tránh dùng số lượt tải, prompt count, DAU/MAU làm metric chính — chính là bài học từ IBM Watson (input metric không cứu được dự án).
 
-3. Metric hoặc giả định nhóm đã sửa sau red-team là:
+3. Metric hoặc giả định đã sửa sau red-team là:
    **V1:** "Đo D14 compliance bằng self-report survey duy nhất."
    **V2:** "Triangulate compliance bằng (self-report) × (photo log ≥ 3/tuần) × (swap rate trong healthy band). Chỉ count compliance khi có ≥ 1 signal khách quan."
    **Vì sao sửa này tốt hơn:** Self-report bị social desirability bias — mẹ bầu ngại nói "không làm theo bác sĩ". Triangulation tránh lặp lại lỗi Watson (đo activity không đo outcome). Cũng học từ Morgan Stanley — họ ghép active usage với citation accuracy + time-saved chứ không tin một metric duy nhất.
@@ -196,7 +193,7 @@ Tóm tắt bài học từ case study để dùng cho dashboard.
    **V1 (bổ sung):** "Owner workflow ghi là 'product team'."
    **V2:** "Mỗi metric có owner role cụ thể (Product Lead, AI Eng Lead, Clinical Lead, Finance BP). Clinical Lead là dietitian partner độc lập, không phải nhân viên nội bộ → tránh conflict of interest khi audit."
 
-4. Trước khi scale, nhóm phải:
+4. Trước khi scale, cần phải:
    1. Đạt **menu safety audit pass rate ≥ 98%** trong 3 tháng liên tiếp với cohort GDM và IDA, kèm 0 sự cố y tế nghiêm trọng.
    2. Ký MOU với **≥ 5 phòng khám sản** để có kênh distribution đáng tin cậy + nguồn ground truth HbA1c thật (chuyển clinical outcome proxy từ self-report sang lab data).
    3. Build **food recognition model accuracy top-1 ≥ 75%** trên 100 món Việt phổ biến + correction rate ≤ 25% (gate cho photo logging workflow).
@@ -206,15 +203,7 @@ Tóm tắt bài học từ case study để dùng cho dashboard.
 
 ## 6. Red-team và sửa v2
 
-### Nhóm mình đi red-team nhóm khác
-
-| Vai nhóm được giao | Nhóm bị phản biện | 3 câu hỏi / rủi ro nhóm mình nêu |
-|---|---|---|
-| **Risk** | Nhóm 3 — AI customer support chatbot | 1. Khi AI trả lời sai về chính sách hoàn tiền, ai chịu trách nhiệm pháp lý và metric nào sẽ bắt được vụ đó trước khi escalate thành PR crisis? 2. Có audit trail từng câu trả lời AI gửi cho khách không, lưu trong bao lâu? 3. Khi escalate sang agent, AI có pass đủ context (lịch sử khách, intent) hay agent phải hỏi lại — đo bằng metric "agent rework rate" được không? |
-
-### Nhóm mình bị red-team
-
-| Red-team risk | Metric / giả định bị chất vấn | Nhóm sửa gì ở v2? |
+| Red-team risk | Metric / giả định bị chất vấn | Sửa gì ở v2? |
 |---|---|---|
 | 1. **CFO**: "Compliance ≥ 50% không trả lời được câu — app có giúp giảm chi phí khám thai bất thường, NICU admission, hay không? ROI ở đâu?" | Compliance D14 + retention D30 không có liên kết đến cost/value thực tế | Thêm metric **Clinical outcome proxy** (% GDM user đường huyết trong target zone) ở layer Value của Workflow 2. Lộ trình: V1 self-report → V2 lấy HbA1c thật qua MOU phòng khám. |
 | 2. **User**: "Tactic push notification W2 có ép mẹ bầu cảm thấy có lỗi khi không ăn theo menu — gây thêm anxiety thay vì giảm anxiety không?" | Tactic 3 (push notification W2) có thể tạo guilt/anxiety, ngược với mục tiêu sản phẩm | V2: đổi tone notification từ "bạn mới đạt 60%" sang "tuần này thai 27 tuần, cùng xem món nào dễ thêm sắt nhé"; thêm metric **anxiety self-report (PHQ-2)** weekly trong 4 tuần đầu, target *không tăng* so với baseline. |
